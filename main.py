@@ -47,7 +47,7 @@ def outputSigmoid(v):
     return v
 
 def neuralNet(pc,rfc,cc,rc):
-    weights=[3,2.5,1,1.5]
+    weights=[3,6.25,1,0.75]
     coeff=[pc,rfc,cc,rc]
 
     potential=0
