@@ -36,7 +36,7 @@ def conditionCoeff(team,opp):
         return 0.5
 
 def awayPerfCoeff(awayAvg,rwithteam,careerAvg,conditionCoeff):
-    return ((awayAvg/careerAvg)**(3/2)*rwithteam)*conditionCoeff
+    return ((awayAvg/careerAvg)**(3/2)*(rwithteam)**(1/3))*conditionCoeff
 
 def homePerfCoeff(homeAvg,careerAvg,conditionCoeff):
     return ((homeAvg/careerAvg)**(3/2))*conditionCoeff
