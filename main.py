@@ -54,6 +54,8 @@ def neuralNet(pc,rfc,cc,rc):
     for i in range(4):
         potential=potential+(weights[i]*coeff[i])
     outp=outputSigmoid(potential)
+    outp=float(format(outp,'.2f'))
+    
     return outp
 
 
@@ -110,6 +112,8 @@ def getCareerAvg(playerno,name,country,format1):
     avg=avg[::-1]
     avg=avg.strip()
     avg=float(avg)
+    avg=format(avg,'.2f')
+    avg=float(avg)
     return avg
 
 def HomeAwayAverage(playerno,name,country,format1):
@@ -129,7 +133,8 @@ def HomeAwayAverage(playerno,name,country,format1):
             awayavg=name[i+1].find_all("td")[7].text
             awayavg=float(awayavg)
             break
-
+    homeavg=float(format(homeavg,'.2f'))
+    awayavg=float(format(awayavg,'.2f'))
     avg=[homeavg,awayavg]
     return avg
 
@@ -229,38 +234,34 @@ def getRecentFormInOpposition(playerno,format1,country,opp):
     url = "http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting;view=innings"
     html = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(html,'html.parser')
-
-    g=soup.find_all("tr",{"class":"data1"})
     total=[];
     count=0;
+    innings=0
 
     for i in range(len(g) - 1, 0, -1):
+        if(count == 5):
+            break
         tuple = g[i].find_all("td")
         try:
             if (opp == ground[tuple[11].text] and tuple[10].text == ("v " + opp)):
-                print(re.findall('[0-9]+', tuple[0].text))
-                if (count < 5 and (re.findall('[0-9]+', tuple[0].text))):
-                    count = count + 1
-                    total = total + (re.findall('[0-9]+', tuple[0].text))
+
+                if("*" not in str(re.findall('[0-9]+\**', tuple[0].text))):
+                    innings = innings + 1
+
+                count +=1
+                total = total + (re.findall('[0-9]+', tuple[0].text))
         except:
             continue
 
     sum=0
-    innings=0
     if len(total)==0:
-        return -1
-    elif len(total)<5:
-        innings=len(total)
-        for i in range(innings):
-            sum = sum + int(total[i])
-        return sum/innings
+        return(-1)
 
     else:
-        innings=5
-        for i in range(innings):
-            sum = sum + int(total[i])
-        return sum/innings
+        for i in total:
+            sum = sum + int(i)
 
+        return(sum/innings)
 
 @app.route('/',methods=["POST","GET"])
 def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
