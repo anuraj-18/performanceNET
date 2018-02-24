@@ -210,7 +210,7 @@ def getAverageLast5(name,country,format1):
 """
 @app.route('/')
 def player_analysis(name=None):
-    name=getPlayerNo("ms dhoni","india")
+    name=getPlayerNo("ms dhoni","India")
     return render_template("playerrate.html",name=name)
 
 if __name__ == '__main__':
