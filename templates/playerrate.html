@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	{% if name %}
 	<style>
 		.no-js #loader { display: none;  }
 		.js #loader { display: block; position: absolute; left: 100px; top: 0; }
@@ -20,6 +21,7 @@
 		// Animate loader off screen
 		$(".se-pre-con").fadeOut("slow");;
 	});
+	{% endif %}
 	<title>Player Analysis</title>
 	<meta charset="UTF-8">
 	<meta name="HandheldFriendly" content="True">
@@ -42,7 +44,9 @@
     </script>
 </head>
 <body>
+	{% if name %}
     <div class="se-pre-con"></div>
+	{% endif %}
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
