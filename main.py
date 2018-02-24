@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template,redirect,session,url_for
 import os,pip,sys,time
-import urllib
+import urllib,re
 try:
     from bs4 import BeautifulSoup
 except:
