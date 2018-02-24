@@ -14,6 +14,30 @@ country_dic={"England":"1","Australia":"2","South Africa":"3","West Indies":"4",
 
 format_dic={"ODI":"2","Test":"1"}
 
+rankings_test = {"India" : 1, "South Africa" : 2, "Australia" : 3, "New Zealand" : 4, "England" : 5,"Sri Lanka" : 6, "Pakistan" : 7,"West Indies" : 8,"Bangladesh" : 9}
+
+rankings_odi = {"India" : 1, "South Africa" : 2, "England" : 3, "New Zealand" : 4, "Australia" : 5, "Pakistan" : 6,"Bangladesh" : 7,"Sri Lanka" : 8,"West Indies" : 9}
+
+condition_count = {"India" : "spin", "South Africa" : "fast", "Australia" : "fast", "New Zealand" : "fast", "England" : "fast","Sri Lanka" : "spin", "Pakistan" : "spin","West Indies" : "medium","Bangladesh" : "spin","UAE" : "spin"} 
+
+def rankCoeff(teamRank,oppRank):
+	return teamRank/OppRank
+
+def conditionCoeff(team,opp):
+	if condition_count[team]==condition_count[opp]:
+        return 1
+    else:
+        return 0.5
+
+def awayPerfCoeff(awayAvg,careerAvg,conditionCoeff):
+	return ((awayAvg/careerAvg)**(3/2))*conditionCoeff
+
+def homePerfCoeff(homeAvg,careerAvg,conditionCoeff):
+	return ((homeAvg/careerAvg)**(3/2))*conditionCoeff
+
+def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
+	return (recentForm/careerAvg)/(conditionCoeff**(1/2))
+
 def getPlayerNo(name,country):
     playername=name.lower()
 
@@ -229,9 +253,9 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
 
     else:
         return render_template("playerrate.html")
-"""
-@app.route('/try',methods=["POST","GET"])
-def try(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
+
+@app.route('/try1',methods=["POST","GET"])
+def try1(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
     if request.method=="POST":
         name=request.form["name"]
         name=name.split(" ")
@@ -251,7 +275,7 @@ def try(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeav
 
     else:
         return render_template("try.html")
-"""
+
 
 if __name__ == '__main__':
   app.run()
