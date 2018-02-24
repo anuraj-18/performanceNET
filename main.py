@@ -44,7 +44,7 @@ def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
     return (recentForm/careerAvg)/(conditionCoeff**(1/2))
 
 def outputSigmoid(v):
-    return 1/(1+(2.71**(-v)))
+    return v
 
 def neuralNet(pc,rfc,cc,rc):
     weights=[3,2.5,1,1.5]
