@@ -24,6 +24,7 @@ condition_count = {"India" : "spin", "South Africa" : "fast", "Australia" : "fas
 
 ground = {'Thiruvananthapuram':'India','Kochi':'India','Visakhapatnam':'India','Margao':'India','Chandigarh':'India','Ahmedabad':'India','Kanpur':'India','Delhi':'India','Nagpur':'India','Mohali':'India','Jaipur':'India','Pune':'India','Rajkot':'India','Vadodara':'India','Hyderabad (Deccan)':'India','Bengaluru':'India','Mumbai (BS)':'India','Kolkata':'India','Mumbai':'India','Faridabad':'India','Guwahati':'India','Gwalior':'India','Indore':'India','Cuttack':'India','Chennai':'India','Dharamsala':'India','Ranchi':'India','Jamshedpur':'India','Johannesburg':'South Africa','Centurion':'South Africa','Cape Town':'South Africa','Port Elizabeth':'South Africa','Durban':'South Africa','Bloemfontein':'South Africa','Benoni':'South Africa','East London':'South Africa','Kimberley':'South Africa','Pietermaritzburg':'South Africa','Potchefstroom':'South Africa','Paarl':'South Africa','Southampton':'England','Bristol':'England','Birmingham':'England','Manchester':'England','Leeds':'England','The Oval':'England',"Lord's":'England','Chester-le-Street':'England','Cardiff':'England','Nottingham':'England','Kuala Lumpur':'Australia','Brisbane':'Australia','Melbourne':'Australia','Adelaide':'Australia','Sydney':'Australia','Perth':'Australia','Canberra':'Australia','Colombo (RPS)':'Sri Lanka','Pallekele':'Sri Lanka','Dambulla':'Sri Lanka','Kingston':'West Indies','North Sound':'West Indies','Port of Spain':'West Indies','Harare':'Zimbabwe','Dhaka':'Bangladesh','Auckland':'New Zealand','Hamilton':'Ireland','Wellington':'New Zealand','Napier':'New Zealand','Aukland':'New Zealand','Hambantota':'Sri Lanka','Colombo (PSS)':'Sri Lanka','Hobart':'Sri Lanka','Galle':'Sri Lanka','Gros Islet':'West Indies','Bridgetown':'West Indies','Roseau':'West Indies',"St John's":'West Indies','Basseterre':'West Indies','Christchurch':'New Zealand','Karachi':'Pakistan','Glasgow':'scotland','Belfast':'Ireland','Colombo (SSC)':'Sri Lanka','Abu Dhabi':'uae','Multan':'Pakistan','Lahore':'Pakistan','Peshawar':'Pakistan','Rawalpindi':'Pakistan','Bulawayo':'Zimbabwe','Chittagong':'Bangladesh',}
 
+batting_pos=[50,50,50,50,45,42,40,30]
 
 def rankCoeff(teamRank,oppRank):
     return (10-(teamRank-oppRank))/100
@@ -46,14 +47,16 @@ def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
 def outputSigmoid(v):
     return v
 
-def neuralNet(pc,rfc,cc,rc):
-    weights=[3,6.25,1,0.75]
-    coeff=[pc,rfc,cc,rc]
+def neuralNet(pc,rfc,cc,rc,bpcoeff):
+    weights=[4,10,1,0.75,5]
+    coeff=[pc,rfc,cc,rc,bpcoeff]
 
     potential=0
-    for i in range(4):
+    for i in range(5):
         potential=potential+(weights[i]*coeff[i])
     outp=outputSigmoid(potential)
+    outp=outp/20.75
+    outp=float(format(outp,'.2f'))
     return outp
 
 def getPlayerNo(name,country):
@@ -279,10 +282,13 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         career_avg=getCareerAvg(playerno,name,country,format1)
         if avgwithteam==-1:
             if place=="Away":
-                avgwithteam=awayavg
+                avgwithteam=avglast5
             else:
-                avgwithteam=homeavg
-        
+                avgwithteam=avglast5
+        bp=request.form["bp"]
+        bp=int(bp)
+        desired_avg=batting_position[bp-1]
+        bpcoeff=desired_avg/avglast5
         pc=0
         if place=="Away":
             pc=awayPerfCoeff(avgwithteam,career_avg,conditionCoeff(country,opp))
@@ -295,7 +301,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
             rc=rankCoeff(rankings_odi[country],rankings_odi[opp])
         else:
             rc=rankCoeff(rankings_test[country],rankings_test[opp])
-        rating=neuralNet(pc,rfc,cc,rc)
+        rating=neuralNet(pc,rfc,cc,rc,bpcoeff)
         return render_template("playerrate.html",rating=rating,format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
 
     else:
