@@ -15,13 +15,13 @@
     	}
  
 	div#loading {
-	    top: 200 px;
-	    margin: auto;
-	    position: absolute;
+	    position: fixed;
+	    left: 0px;
+	    top: 0px;
+	    width: 100%;
+	    height: 100%;
 	    z-index: 1000;
-	    width: 160px;
-	    height: 24px;
-	    background: url({{ url_for('static', filename='Preloader_2.gif') }}) no-repeat;
+	    background: url({{ url_for('static', filename='Preloader_2.gif') }}) center no-repeat;
 	    cursor: wait;
 	}
 	</style>
