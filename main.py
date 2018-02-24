@@ -208,7 +208,7 @@ def getAverageLast5(name,country,format1):
     return sum/innings
 
 
-@app.route('/')
+@app.route('/',methods=["POST","GET"])
 def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
     if request.method=="POST":
         name=request.form["name"]
