@@ -8,6 +8,8 @@ except:
     pip.main(['install','--user',package])
     raise ImportError("Restarting")
 
+
+
 app = Flask(__name__)
 
 country_dic={"England":"1","Australia":"2","South Africa":"3","West Indies":"4","New Zealand":"5","India":"6","Pakistan":"7","Sri Lanka":"8"}
@@ -18,10 +20,13 @@ rankings_test = {"India" : 1, "South Africa" : 2, "Australia" : 3, "New Zealand"
 
 rankings_odi = {"India" : 1, "South Africa" : 2, "England" : 3, "New Zealand" : 4, "Australia" : 5, "Pakistan" : 6,"Bangladesh" : 7,"Sri Lanka" : 8,"West Indies" : 9}
 
-condition_count = {"India" : "spin", "South Africa" : "fast", "Australia" : "fast", "New Zealand" : "fast", "England" : "fast","Sri Lanka" : "spin", "Pakistan" : "spin","West Indies" : "medium","Bangladesh" : "spin","UAE" : "spin"} 
+condition_count = {"India" : "spin", "South Africa" : "fast", "Australia" : "fast", "New Zealand" : "fast", "England" : "fast","Sri Lanka" : "spin", "Pakistan" : "spin","West Indies" : "medium","Bangladesh" : "spin","UAE" : "spin"}
+
+ground = {'Thiruvananthapuram':'India','Kochi':'India','Visakhapatnam':'India','Margao':'India','Chandigarh':'India','Ahmedabad':'India','Kanpur':'India','Delhi':'India','Nagpur':'India','Mohali':'India','Jaipur':'India','Pune':'India','Rajkot':'India','Vadodara':'India','Hyderabad (Deccan)':'India','Bengaluru':'India','Mumbai (BS)':'India','Kolkata':'India','Mumbai':'India','Faridabad':'India','Guwahati':'India','Gwalior':'India','Indore':'India','Cuttack':'India','Chennai':'India','Dharamsala':'India','Ranchi':'India','Jamshedpur':'India','Johannesburg':'South Africa','Centurion':'South Africa','Cape Town':'South Africa','Port Elizabeth':'South Africa','Durban':'South Africa','Bloemfontein':'South Africa','Benoni':'South Africa','East London':'South Africa','Kimberley':'South Africa','Pietermaritzburg':'South Africa','Potchefstroom':'South Africa','Paarl':'South Africa','Southampton':'England','Bristol':'England','Birmingham':'England','Manchester':'England','Leeds':'England','The Oval':'England',"Lord's":'England','Chester-le-Street':'England','Cardiff':'England','Nottingham':'England','Kuala Lumpur':'Australia','Brisbane':'Australia','Melbourne':'Australia','Adelaide':'Australia','Sydney':'Australia','Perth':'Australia','Canberra':'Australia','Colombo (RPS)':'Sri Lanka','Pallekele':'Sri Lanka','Dambulla':'Sri Lanka','Kingston':'West Indies','North Sound':'West Indies','Port of Spain':'West Indies','Harare':'Zimbabwe','Dhaka':'Bangladesh','Auckland':'New Zealand','Hamilton':'Ireland','Wellington':'New Zealand','Napier':'New Zealand','Aukland':'New Zealand','Hambantota':'Sri Lanka','Colombo (PSS)':'Sri Lanka','Hobart':'Sri Lanka','Galle':'Sri Lanka','Gros Islet':'West Indies','Bridgetown':'West Indies','Roseau':'West Indies',"St John's":'West Indies','Basseterre':'West Indies','Christchurch':'New Zealand','Karachi':'Pakistan','Glasgow':'scotland','Belfast':'Ireland','Colombo (SSC)':'Sri Lanka','Abu Dhabi':'uae','Multan':'Pakistan','Lahore':'Pakistan','Peshawar':'Pakistan','Rawalpindi':'Pakistan','Bulawayo':'Zimbabwe','Chittagong':'Bangladesh',}
+
 
 def rankCoeff(teamRank,oppRank):
-    return teamRank/OppRank
+    return (10-(teamRank-oppRank))/100
 
 def conditionCoeff(team,opp):
     if condition_count[team]==condition_count[opp]:
@@ -37,6 +42,21 @@ def homePerfCoeff(homeAvg,careerAvg,conditionCoeff):
 
 def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
     return (recentForm/careerAvg)/(conditionCoeff**(1/2))
+
+def outputSigmoid(v):
+    return 1/(1+(2.71**(-v)))
+
+def neuralNet(pc,rfc,cc,rc):
+    weights=[3,2.5,1,1.5]
+    coeff=[pc,rfc,cc,rc]
+
+    potential=0
+    for i in range(4):
+        potential=potential+(weights[i]*coeff[i])
+    outp=outputSigmoid(potential)
+    return outp
+
+
 
 def getPlayerNo(name,country):
     playername=name.lower()
@@ -68,6 +88,7 @@ def getPlayerNo(name,country):
     playerno=int(playerno[::-1])
     return playerno
 
+
 def getCareerAvg(name,country,format1):
     playername=name
 
@@ -79,7 +100,7 @@ def getCareerAvg(name,country,format1):
     name=soup.find_all("li",attrs={"class":"ciPlayername"})
     newlink=""
     for i in range(len(name)):
-        if playername.lower() in str(name[i]).lower():
+        if playername in str(name[i]):
             c=0
             for j in range(len(str(name[i]))):
                 if str(name[i])[j]=="\"":
@@ -118,8 +139,7 @@ def getCareerAvg(name,country,format1):
     avg=float(avg)
     return avg
 
-def HomeAwayAverage(name,country,format1):
-    playerno=getPlayerNo(name,country)
+def HomeAwayAverage(playerno,name,country,format1):
     homeavg=0
     awayavg=0
     statslink="http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting"
@@ -140,9 +160,7 @@ def HomeAwayAverage(name,country,format1):
     avg=[homeavg,awayavg]
     return avg
 
-def getAverageLast5WithTeam(name,country,opp,format1):
-    playerno=getPlayerNo(name,country)
-
+def getAverageLast5WithTeam(playerno,country,opp,format1):
     statslink="http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting;view=innings"
 
     page=urllib.request.urlopen(statslink)
@@ -191,8 +209,7 @@ def getAverageLast5WithTeam(name,country,opp,format1):
     return sum/innings
 
 
-def getAverageLast5(name,country,format1):
-    playerno=getPlayerNo(name,country)
+def getAverageLast5(playerno,country,format1):
 
     statslink="http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting;view=innings"
 
@@ -231,6 +248,42 @@ def getAverageLast5(name,country,format1):
         innings=1
     return sum/innings
 
+def getRecentFormInOpposition(playerno,format1,country,opp):
+    url = "http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting;view=innings"
+    html = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(html,'html.parser')
+
+    g=soup.find_all("tr",{"class":"data1"})
+    total=[];
+    count=0;
+
+    for i in range(len(g) - 1, 0, -1):
+        tuple = g[i].find_all("td")
+        try:
+            if (opp == ground[tuple[11].text] and tuple[10].text == ("v " + opp)):
+                print(re.findall('[0-9]+', tuple[0].text))
+                if (count < 5 and (re.findall('[0-9]+', tuple[0].text))):
+                    count = count + 1
+                    total = total + (re.findall('[0-9]+', tuple[0].text))
+        except:
+            continue
+
+    sum=0
+    innings=0
+    if len(total)==0:
+        return -1
+    elif len(total)<5:
+        innings=len(total)
+        for i in range(innings):
+            sum = sum + int(total[i])
+        return sum/innings
+
+    else:
+        innings=5
+        for i in range(innings):
+            sum = sum + int(total[i])
+        return sum/innings
+
 
 @app.route('/',methods=["POST","GET"])
 def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
@@ -238,18 +291,33 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         name=request.form["name"]
         name=name.split(" ")
         name = name[0].upper() +" "+ name[1].title()
+
         country=request.form["country"]
         opp=request.form["opposition"]
         format1=request.form["format"]
         place=request.form["place"]
-        avgwithteam=request.form["last5teamavg"]
-        avglast5=getAverageLast5(name,country,format1)
-        avglast5withteam=getAverageLast5WithTeam(name,country,opp,format1)
-        avg=HomeAwayAverage(name,country,format1)
+        playerno=getPlayerNo(name,country)
+        avgwithteam=getRecentFormInOpposition(playerno,format1,country,opp)
+        avglast5=getAverageLast5(playerno,country,format1)
+        avglast5withteam=getAverageLast5WithTeam(playerno,country,opp,format1)
+        avg=HomeAwayAverage(playerno,name,country,format1)
         homeavg=avg[0]
         awayavg=avg[1]
         career_avg=getCareerAvg(name,country,format1)
-        return render_template("playerrate.html",format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
+        pc=0
+        if place=="Away":
+            pc=awayPerfCoeff(avgwithteam,career_avg,conditionCoeff(country,opp))
+        else:
+            pc=homePerfCoeff(homeavg,career_avg,conditionCoeff(country,opp))
+        rfc=recentFormCoeff(avglast5,career_avg,conditionCoeff(country,opp))
+        cc=conditionCoeff(country,opp)
+        rc=0
+        if format1=="ODI":
+            rc=rankCoeff(rankings_odi[country],rankings_odi[opp])
+        else:
+            rc=rankCoeff(rankings_test[country],rankings_test[opp])
+        rating=neuralNet(pc,rfc,cc,rc)
+        return render_template("playerrate.html",rating=rating,format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
 
     else:
         return render_template("playerrate.html")
