@@ -37,7 +37,7 @@
 	<div class="well" id="topwell">
 		<div class="row">
 			<div class="col-md-4">
-				<center><a href="{{ url_for('try') }}"><img id="logo" src="{{ url_for('static', filename='strologo.jpg') }}" class="img-rounded"></img></a></center>
+				<center><a href="{{ url_for('try1') }}"><img id="logo" src="{{ url_for('static', filename='strologo.jpg') }}" class="img-rounded"></img></a></center>
 			</div>
 			<div class="col-md-6">
 			    <center>
@@ -93,7 +93,7 @@
 
 	{% else %}
     <center>
-        <form method="POST" action="{{ url_for('try') }}">
+        <form method="POST" action="{{ url_for('try1') }}">
         <div class="card">
             <div class="input-container">
                 <input type="text" id="#{label}" name="name" required="required"/>
