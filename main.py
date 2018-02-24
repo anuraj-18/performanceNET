@@ -287,7 +287,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
                 avgwithteam=avglast5
         bp=request.form["bp"]
         bp=int(bp)
-        desired_avg=batting_position[bp-1]
+        desired_avg=batting_pos[bp-1]
         bpcoeff=desired_avg/avglast5
         pc=0
         if place=="Away":
