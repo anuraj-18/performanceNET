@@ -54,11 +54,7 @@ def neuralNet(pc,rfc,cc,rc):
     for i in range(4):
         potential=potential+(weights[i]*coeff[i])
     outp=outputSigmoid(potential)
-    outp=float(format(outp,'.2f'))
-    
     return outp
-
-
 
 def getPlayerNo(name,country):
     playername=name.lower()
@@ -112,8 +108,7 @@ def getCareerAvg(playerno,name,country,format1):
     avg=avg[::-1]
     avg=avg.strip()
     avg=float(avg)
-    avg=format(avg,'.2f')
-    avg=float(avg)
+    
     return avg
 
 def HomeAwayAverage(playerno,name,country,format1):
@@ -133,8 +128,7 @@ def HomeAwayAverage(playerno,name,country,format1):
             awayavg=name[i+1].find_all("td")[7].text
             awayavg=float(awayavg)
             break
-    homeavg=float(format(homeavg,'.2f'))
-    awayavg=float(format(awayavg,'.2f'))
+ 
     avg=[homeavg,awayavg]
     return avg
 
