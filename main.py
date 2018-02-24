@@ -35,11 +35,11 @@ def conditionCoeff(team,opp):
     else:
         return 0.5
 
-def awayPerfCoeff(awayAvg,rwithteam,careerAvg,conditionCoeff):
-    return ((awayAvg/careerAvg)**(3/2)*(rwithteam)**(1/3))*conditionCoeff
+def awayPerfCoeff(awayAvg,rwithteam,careerAvg,conditionCoeff,bp):
+    return ((awayAvg/batting_pos[bp-1])**(3/2)*(rwithteam)**(1/3))*conditionCoeff
 
-def homePerfCoeff(homeAvg,careerAvg,conditionCoeff):
-    return ((homeAvg/careerAvg)**(3/2))*conditionCoeff
+def homePerfCoeff(homeAvg,careerAvg,conditionCoeff,bp):
+    return ((homeAvg/batting_pos[bp-1])**(3/2))*conditionCoeff
 
 def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
     return (recentForm/careerAvg)/(conditionCoeff**(1/2))
@@ -291,9 +291,9 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         bpcoeff=desired_avg/avglast5
         pc=0
         if place=="Away":
-            pc=awayPerfCoeff(avgwithteam,avglast5withteam,career_avg,conditionCoeff(country,opp))
+            pc=awayPerfCoeff(avgwithteam,avglast5withteam,career_avg,conditionCoeff(country,opp),bp)
         else:
-            pc=homePerfCoeff(homeavg,career_avg,conditionCoeff(country,opp))
+            pc=homePerfCoeff(homeavg,career_avg,conditionCoeff(country,opp),bp)
         rfc=recentFormCoeff(avglast5,career_avg,conditionCoeff(country,opp))
         cc=conditionCoeff(country,opp)
         rc=0
