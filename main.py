@@ -168,6 +168,7 @@ def getAverageLast5WithTeam(playerno,country,opp,format1):
     score=[]
     innings=5
     c=0
+    no=0
     name=soup.find_all("tr",attrs={"class":"data1"})
     for i in range(len(name)-1,0,-1):
         k=str(name[i].find_all("a", attrs={"class":"data-link"})[0])
@@ -198,14 +199,17 @@ def getAverageLast5WithTeam(playerno,country,opp,format1):
                 k=k[0:len(k)-6]
                 score.append(int(k))
                 innings=innings-1
+                no=no+1
             c=c+1
         if c==5:
             break
     sum=0
-    for i in range(5):
-        sum=sum+score[i]
+    innings=c-no
     if innings==0:
         innings=1
+    for i in range(len(score)):
+        sum=sum+score[i]
+   
     return sum/innings
 
 
