@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template,redirect,session,url_for
+"""
 import urllib
 from bs4 import BeautifulSoup
-
+"""
 app = Flask(__name__)
 """
 def getPlayerNo(name,country):
@@ -197,6 +198,7 @@ def getAverageLast5(name,country,format1):
         innings=1
     return sum/innings
 """
+
 @app.route('/')
 def player_analysis():
   return render_template("playerrate.html")
