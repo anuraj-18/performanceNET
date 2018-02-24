@@ -304,6 +304,12 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         homeavg=avg[0]
         awayavg=avg[1]
         career_avg=getCareerAvg(name,country,format1)
+        if avgwithteam==-1:
+            if place=="Away":
+                avgwithteam=awayavg
+            else:
+                avgwithteam=homeavg
+        
         pc=0
         if place=="Away":
             pc=awayPerfCoeff(avgwithteam,career_avg,conditionCoeff(country,opp))
