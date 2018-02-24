@@ -42,20 +42,20 @@ def homePerfCoeff(homeAvg,careerAvg,conditionCoeff,bp):
     return ((homeAvg/batting_pos[bp-1])**(3/2))*conditionCoeff
 
 def recentFormCoeff(recentForm,careerAvg,conditionCoeff,bp):
-    return (recentForm/batting_pos[bp-1])/(conditionCoeff**(1/2))
+    return ((recentForm/batting_pos[bp-1])**(1/3))/(conditionCoeff**(1/2))
 
 def outputSigmoid(v):
     return v
 
 def neuralNet(pc,rfc,cc,rc,bpcoeff):
-    weights=[4,10,1,0.75,5]
+    weights=[4,12,1,0.75,5]
     coeff=[pc,rfc,cc,rc,bpcoeff]
 
     potential=0
     for i in range(5):
         potential=potential+(weights[i]*coeff[i])
     outp=outputSigmoid(potential)
-    outp=outp/20.75
+    outp=outp/22.75
     outp=float(format(outp,'.2f'))
     return outp
 
@@ -288,7 +288,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         bp=request.form["bp"]
         bp=int(bp)
         desired_avg=batting_pos[bp-1]
-        bpcoeff=desired_avg/avglast5
+        bpcoeff=avglast5/desired_avg
         pc=0
         if place=="Away":
             pc=awayPerfCoeff(avgwithteam,avglast5withteam,career_avg,conditionCoeff(country,opp),bp)
