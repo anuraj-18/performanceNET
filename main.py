@@ -212,6 +212,8 @@ def getAverageLast5(name,country,format1):
 def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
     if request.method=="POST":
         name=request.form["name"]
+        name=name.split(" ")
+        name = name[0].upper() +" "+ name[1].title()
         country=request.form["country"]
         opp=request.form["opposition"]
         format1=request.form["format"]
