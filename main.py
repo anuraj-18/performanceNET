@@ -9,7 +9,11 @@ except:
     raise ImportError("Restarting")
 
 app = Flask(__name__)
-"""
+
+country_dic={"England":"1","Australia":"2","South Africa":"3","West Indies":"4","New Zealand":"5","India":"6","Pakistan":"7","Sri Lanka":"8"}
+
+format_dic={"ODI":"2","Test":"1"}
+
 def getPlayerNo(name,country):
     playername=name.lower()
 
@@ -39,7 +43,7 @@ def getPlayerNo(name,country):
             break
     playerno=int(playerno[::-1])
     return playerno
-
+"""
 def getCareerAvg(name,country,format1):
     playername=name
 
@@ -202,11 +206,12 @@ def getAverageLast5(name,country,format1):
     if innings==0:
         innings=1
     return sum/innings
-"""
 
+"""
 @app.route('/')
-def player_analysis():
-  return render_template("playerrate.html")
+def player_analysis(name=None):
+    name=getPlayerNo("ms dhoni","india")
+    return render_template("playerrate.html",name=name)
 
 if __name__ == '__main__':
   app.run()
