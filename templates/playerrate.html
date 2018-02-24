@@ -1,7 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<script type="text/javascript">// <![CDATA[
+        function preloader(){
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }//preloader
+        window.onload = preloader;
+	// ]]></script>
 	<title>Player Analysis</title>
+	<style>
+	div#content {
+    		display: none;
+    	}
+ 
+	div#loading {
+	    top: 200 px;
+	    margin: auto;
+	    position: absolute;
+	    z-index: 1000;
+	    width: 160px;
+	    height: 24px;
+	    background: url(loadingimage.gif) no-repeat;
+	    cursor: wait;
+	}
+	</style>
 	<meta charset="UTF-8">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
@@ -23,7 +46,8 @@
     </script>
 </head>
 <body>
-	
+    <div id="loading"></div>
+    <div id="content">		
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -169,7 +193,7 @@
     <footer class="container-fluid bg-4 text-center">
   		<p><b>The Road to Success Runs Uphill.</b></p>
 	</footer>
-
+	</div>
 </body>
 <style>
 
