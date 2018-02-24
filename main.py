@@ -1,8 +1,12 @@
 from flask import Flask, request, render_template,redirect,session,url_for
-
-import urllib2
-
-from bs4 import BeautifulSoup
+import os,pip,sys,time
+import urllib
+try:
+    from bs4 import BeautifulSoup
+except:
+    package='beautifulsoup4-4.6.0-py3-none-any.whl'
+    pip.main(['install','--user',package])
+    raise ImportError("Restarting")
 
 app = Flask(__name__)
 """
