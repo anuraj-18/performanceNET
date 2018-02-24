@@ -249,13 +249,13 @@ def getRecentFormInOpposition(playerno,format1,country,opp):
 
     sum=0
     if len(total)==0:
-        return(-1)
+        return -1
 
     else:
         for i in total:
             sum = sum + int(i)
 
-        return(sum/innings)
+        return sum/innings
 
 @app.route('/',methods=["POST","GET"])
 def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
