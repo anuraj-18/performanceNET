@@ -21,22 +21,22 @@ rankings_odi = {"India" : 1, "South Africa" : 2, "England" : 3, "New Zealand" : 
 condition_count = {"India" : "spin", "South Africa" : "fast", "Australia" : "fast", "New Zealand" : "fast", "England" : "fast","Sri Lanka" : "spin", "Pakistan" : "spin","West Indies" : "medium","Bangladesh" : "spin","UAE" : "spin"} 
 
 def rankCoeff(teamRank,oppRank):
-	return teamRank/OppRank
+    return teamRank/OppRank
 
 def conditionCoeff(team,opp):
-	if condition_count[team]==condition_count[opp]:
+    if condition_count[team]==condition_count[opp]:
         return 1
     else:
         return 0.5
 
 def awayPerfCoeff(awayAvg,careerAvg,conditionCoeff):
-	return ((awayAvg/careerAvg)**(3/2))*conditionCoeff
+    return ((awayAvg/careerAvg)**(3/2))*conditionCoeff
 
 def homePerfCoeff(homeAvg,careerAvg,conditionCoeff):
-	return ((homeAvg/careerAvg)**(3/2))*conditionCoeff
+    return ((homeAvg/careerAvg)**(3/2))*conditionCoeff
 
 def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
-	return (recentForm/careerAvg)/(conditionCoeff**(1/2))
+    return (recentForm/careerAvg)/(conditionCoeff**(1/2))
 
 def getPlayerNo(name,country):
     playername=name.lower()
