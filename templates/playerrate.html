@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	{% if name %}
-	<style>
-		.no-js #loader { display: none;  }
-		.js #loader { display: block; position: absolute; left: 100px; top: 0; }
-		.se-pre-con {
-			position: fixed;
-			left: 0px;
-			top: 0px;
-			width: 100%;
-			height: 100%;
-			z-index: 9999;
-			background: url({{ url_for('static', filename='Preloader_2.gif') }}) center no-repeat #fff;
-		}
-	</style>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-	$(window).load(function() {
-		// Animate loader off screen
-		$(".se-pre-con").fadeOut("slow");;
-	});
-	{% endif %}
 	<title>Player Analysis</title>
 	<meta charset="UTF-8">
 	<meta name="HandheldFriendly" content="True">
@@ -44,9 +23,7 @@
     </script>
 </head>
 <body>
-	{% if name %}
-    <div class="se-pre-con"></div>
-	{% endif %}
+	
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
