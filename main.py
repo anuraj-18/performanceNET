@@ -288,7 +288,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         bp=request.form["bp"]
         bp=int(bp)
         desired_avg=batting_pos[bp-1]
-        bpcoeff=desired_avg/avglast5
+        bpcoeff=avglast5/desired_avg
         pc=0
         if place=="Away":
             pc=awayPerfCoeff(avgwithteam,avglast5withteam,career_avg,conditionCoeff(country,opp),bp)
