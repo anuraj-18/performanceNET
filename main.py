@@ -229,6 +229,28 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
 
     else:
         return render_template("playerrate.html")
+@app.route('/try',methods=["GET","POST"])
+def try(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
+    if request.method=="POST":
+        name=request.form["name"]
+        name=name.split(" ")
+        name = name[0].upper() +" "+ name[1].title()
+        country=request.form["country"]
+        opp=request.form["opposition"]
+        format1=request.form["format"]
+        place=request.form["place"]
+        avgwithteam=request.form["last5teamavg"]
+        avglast5=getAverageLast5(name,country,format1)
+        avglast5withteam=getAverageLast5WithTeam(name,country,opp,format1)
+        avg=HomeAwayAverage(name,country,format1)
+        homeavg=avg[0]
+        awayavg=avg[1]
+        career_avg=getCareerAvg(name,country,format1)
+        return render_template("playerrate.html",format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
+
+    else:
+        return render_template("playerrate.html")
+    
 
 if __name__ == '__main__':
   app.run()
