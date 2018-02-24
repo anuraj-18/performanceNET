@@ -89,38 +89,11 @@ def getPlayerNo(name,country):
     return playerno
 
 
-def getCareerAvg(name,country,format1):
+def getCareerAvg(playerno,name,country,format1):
     playername=name
-
-    link="http://www.espncricinfo.com/india/content/player/caps.html?country="+country_dic[country]+";class=1"
-
+    """http://www.espncricinfo.com/india/content/player/28081.html"""
+    link="http://www.espncricinfo.com/"+country.lower()+"/content/player/"+str(playerno)+".html"
     page=urllib.request.urlopen(link)
-    soup=BeautifulSoup(page,"html.parser")
-
-    name=soup.find_all("li",attrs={"class":"ciPlayername"})
-    newlink=""
-    for i in range(len(name)):
-        if playername in str(name[i]):
-            c=0
-            for j in range(len(str(name[i]))):
-                if str(name[i])[j]=="\"":
-                    c=c+1
-                    if c==5:
-                        for k in range(j+1,len(str(name[i]))):
-                            newlink=newlink+str(name[i])[k]
-                            if(str(name[i])[k+1]=='"'):
-                                break
-
-    playerno=""
-    for i in range(len(newlink)-6,-1,-1):
-        playerno=playerno+newlink[i]
-        if newlink[i-1]=="/":
-            break
-    playerno=int(playerno[::-1])
-
-
-    newlink="http://www.espncricinfo.com"+newlink
-    page=urllib.request.urlopen(newlink)
     soup=BeautifulSoup(page,"html.parser")
 
     name=soup.find_all("tr",attrs={"class":"data1"})
