@@ -41,8 +41,8 @@ def awayPerfCoeff(awayAvg,rwithteam,careerAvg,conditionCoeff,bp):
 def homePerfCoeff(homeAvg,careerAvg,conditionCoeff,bp):
     return ((homeAvg/batting_pos[bp-1])**(3/2))*conditionCoeff
 
-def recentFormCoeff(recentForm,careerAvg,conditionCoeff):
-    return (recentForm/careerAvg)/(conditionCoeff**(1/2))
+def recentFormCoeff(recentForm,careerAvg,conditionCoeff,bp):
+    return (recentForm/batting_pos[bp-1])/(conditionCoeff**(1/2))
 
 def outputSigmoid(v):
     return v
@@ -294,7 +294,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
             pc=awayPerfCoeff(avgwithteam,avglast5withteam,career_avg,conditionCoeff(country,opp),bp)
         else:
             pc=homePerfCoeff(homeavg,career_avg,conditionCoeff(country,opp),bp)
-        rfc=recentFormCoeff(avglast5,career_avg,conditionCoeff(country,opp))
+        rfc=recentFormCoeff(avglast5,career_avg,conditionCoeff(country,opp),bp)
         cc=conditionCoeff(country,opp)
         rc=0
         if format1=="ODI":
