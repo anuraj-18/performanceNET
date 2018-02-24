@@ -228,6 +228,7 @@ def getRecentFormInOpposition(playerno,format1,country,opp):
     url = "http://stats.espncricinfo.com/ci/engine/player/"+str(playerno)+".html?class="+format_dic[format1]+";template=results;type=batting;view=innings"
     html = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(html,'html.parser')
+    g=soup.find_all("tr",{"class":"data1"})
     total=[];
     count=0;
     innings=0
