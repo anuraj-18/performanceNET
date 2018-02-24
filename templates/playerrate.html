@@ -263,7 +263,10 @@
 <script>
 document.getElementById("Proc1").onclick = function()
 {
-	alert("The opposing country cannot be same as the Player's country.")
+	if(document.getElementById("country").text == document.getElementById("opposition").text)
+	{
+		alert("The opposing country cannot be same as the Player's country.")
+	}
 }
 </script>
 </html>
