@@ -55,7 +55,7 @@ def getCareerAvg(name,country,format1):
     name=soup.find_all("li",attrs={"class":"ciPlayername"})
     newlink=""
     for i in range(len(name)):
-        if playername in str(name[i]):
+        if playername.lower() in str(name[i]).lower():
             c=0
             for j in range(len(str(name[i]))):
                 if str(name[i])[j]=="\"":
