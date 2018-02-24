@@ -4,7 +4,7 @@ import urllib
 try:
     from bs4 import BeautifulSoup
 except:
-    package='beautifulsoup4-4.6.0-py3-none-any.whl'
+    package='beautifulsoup4-4.4.1-py3-none-any.whl '
     pip.main(['install','--user',package])
     raise ImportError("Restarting")
 
