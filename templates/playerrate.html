@@ -75,21 +75,28 @@
 	</div>
 	{% if name %}
 
-    <div class="well" id="">
-        <center><h2><b>{{ name }}: {{ format1 }} Analysis</b></h2></center>
-        <center>
-            <h3><b>Career Average: {{ career_avg }}</b></h3>
-            <h3><b>Recent form: {{ avglast5 }}</b></h3>
-            <h3><b>Recent form against {{ opp }}: {{ avglast5withteam }}</b></h3>
-            {% if place=="Home" %}
-            <h3><b>Home average: {{ homeavg }}</b></h3>
-            {% else %}
-            <h3><b>Away average: {{ awayavg }}</b></h3>
-            {% endif %}
-            {% if place=="Away" %}
-            <h3><b>Recent form in {{ opp }}: {{ avgwithteam }}</b></h3>
-            {% endif %}
-        </center>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="well" id="topcomment1">
+                    <center><h2><b>{{ name }}: {{ format1 }} Analysis</b></h2></center>
+                    <center>
+                    <h3><b>Career Average: {{ career_avg }}</b></h3>
+                    <h3><b>Recent form: {{ avglast5 }}</b></h3>
+                    <h3><b>Recent form against {{ opp }}: {{ avglast5withteam }}</b></h3>
+                    {% if place=="Home" %}
+                    <h3><b>Home average: {{ homeavg }}</b></h3>
+                    {% else %}
+                    <h3><b>Away average: {{ awayavg }}</b></h3>
+                    {% endif %}
+                    {% if place=="Away" %}
+                    <h3><b>Recent form in {{ opp }}: {{ avgwithteam }}</b></h3>
+                    {% endif %}
+                    <h3><b>s-tronomic Rating: {{ rating }}</b></h3>
+                    </center>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
     </div>
 
 	{% else %}
