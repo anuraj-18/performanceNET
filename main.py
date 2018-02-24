@@ -229,7 +229,7 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
 
     else:
         return render_template("playerrate.html")
-    
+"""
 @app.route('/try',methods=["POST","GET"])
 def try(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
     if request.method=="POST":
@@ -251,7 +251,7 @@ def try(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeav
 
     else:
         return render_template("try.html")
-    
+ """   
 
 if __name__ == '__main__':
   app.run()
