@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Player Analysis</title>
+	<meta charset="UTF-8">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+	<meta name="viewport" content="initial-scale=1.0,width=device-width,minimum-scale=1.0,maximum-scale=2.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fron_des.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-6109857677379356",
+        enable_page_level_ads: true
+        });
+    </script>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.12';
+        fjs.parentNode.insertBefore(js, fjs);
+        }
+        (document, 'script', 'facebook-jssdk'));
+    </script>
+	<!--header-->
+	<div class="well" id="topwell">
+		<div class="row">
+			<div class="col-md-4">
+				<center><a href="{{ url_for('player_analysis') }}"><img id="logo" src="{{ url_for('static', filename='strologo.jpg') }}" class="img-rounded"></img></a></center>
+			</div>
+			<div class="col-md-6">
+			    <center>
+				<div class="well" id="topcomment">
+					    <blockquote class="quote">
+					        <h2><center><b>FORM IS TEMPORARY, CLASS IS PERMANENT</b></center></h2>
+					        <cite>- Cricket</cite>
+					    </blockquote>
+				</div>
+				</center>
+			</div>
+			<div class="col-md-2">
+			    <h3><center><b>Find me here:</b></center></h3>
+			    <a href="https://twitter.com/shubhamanuraj" target="_blank"><center><i class="fa fa-twitter" style="font-size:48px;color:#55ACEE"></i></center></a>
+			    <h3><center><b>Facebook Page:</b></center></h3>
+			    <a href="https://www.facebook.com/stronomic/" target="_blank"><center><i class="fa fa-facebook-square" style="font-size:48px"></i></center></a>
+			</div>
+		</div>
+	</div>
+	<!--header done-->
 
+	<!--first row tab-->
+	<div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+	        <div class="well" id="topcomment1">
+	            <center><h1><b>The Player Prediction Network</b></h1></center>
+	            {% if not name %}
+	            <center><p><b>Provide details for analysis below</b></p></center>
+	            {% endif %}
+	        </div>
+	    </div>
+	    <div class="col-md-2"></div>
+	</div>
+	{% if name %}
+
+    <div class="well" id="">
+        <center><h2><b>{{ name }}: {{ format1 }} Analysis</b></h2></center>
+        <center>
+            <h3><b>Career Average: {{ career_avg }}</b></h3>
+            <h3><b>Recent form: {{ avglast5 }}</b></h3>
+            <h3><b>Recent form against {{ opp }}: {{ avglast5withteam }}</b></h3>
+            {% if place=="Home" %}
+            <h3><b>Home average: {{ homeavg }}</b></h3>
+            {% else %}
+            <h3><b>Away average: {{ awayavg }}</b></h3>
+            {% endif %}
+            {% if place=="Away" %}
+            <h3><b>Recent form in {{ opp }}: {{ avgwithteam }}</b></h3>
+            {% endif %}
+        </center>
+    </div>
+
+	{% else %}
+    <center>
+        <form method="POST" action="{{ url_for('player_analysis') }}">
+        <div class="card">
+            <div class="input-container">
+                <input type="text" id="#{label}" name="name" required="required"/>
+                <label for="#{label}">Player Name</label>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <div class="input-container">
+                <select id="country" name="country" placeholder="" required="required">
+                    <option value="" selected disabled>Player Country</option>
+                    <option value="Australia">Australia</option>
+                    <option value="England">England</option>
+	                <option value="India">India</option>
+	                <option value="Pakistan">Pakistan</option>
+	                <option value="New Zealand">New Zealand</option>
+	                <option value="South Africa">South Africa</option>
+	                <option value="Sri Lanka">Sri Lanka</option>
+	                <option value="West Indies">West Indies</option>
+                </select>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <div class="input-container">
+                <select id="opposition" name="opposition" placeholder="" required="required">
+                    <option value="" selected disabled>Opposition Country</option>
+                    <option value="Australia">Australia</option>
+                    <option value="England">England</option>
+	                <option value="India">India</option>
+	                <option value="Pakistan">Pakistan</option>
+	                <option value="New Zealand">New Zealand</option>
+	                <option value="South Africa">South Africa</option>
+	                <option value="Sri Lanka">Sri Lanka</option>
+	                <option value="West Indies">West Indies</option>
+                </select>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <div class="input-container">
+                <select id="type" name="format" placeholder="" required="required">
+                    <option value="" selected disabled>Format</option>
+                    <option value="ODI">ODI</option>
+	                <option value="Test">Test</option>
+                </select>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <div class="input-container">
+                <select id="type" name="place" placeholder="Home/Away" required="required">
+                    <option value="" selected disabled>Home/Away</option>
+                    <option value="Home">Home</option>
+	                <option value="Away">Away</option>
+                </select>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <div class="input-container">
+                <input type="text" id="#{label}" name="last5teamavg" required="required"/>
+                <label for="#{label}">Last 5 Innings Average in Opposition's Home</label>
+                <div class="bar"></div>
+            </div>
+            <br>
+            <input type="submit" value="Proceed" class="btn btn-default">
+            <br>
+            <br>
+        </div>
+        </form>
+    </center>
+    {% endif %}
+
+    <footer class="container-fluid bg-4 text-center">
+  		<p><b>More to Come. Stay tuned.</b></p>
+	</footer>
+
+</body>
+<style>
+
+.card .title {
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid #ed2553;
+  margin: 0 0 ;
+  padding: 10px 0 10px 50px;
+  color: #ed2553;
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.card .input-container {
+  position: relative;
+  margin: 0 60px;
+  width: 50%;
+}
+.card .input-container input{
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 60px;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card .input-container select{
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 60px;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card .input-container input:focus ~ label {
+  color: #9d9d9d;
+  -webkit-transform: translate(-12%, -50%) scale(0.75);
+          transform: translate(-12%, -50%) scale(0.75);
+}
+.card .input-container input:focus ~ .bar:before, .card .input-container input:focus ~ .bar:after {
+  width: 50%;
+}
+.card .input-container input:valid ~ label {
+  color: #9d9d9d;
+  -webkit-transform: translate(-12%, -50%) scale(0.75);
+          transform: translate(-12%, -50%) scale(0.75);
+}
+.card .input-container label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #757575;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 60px;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+.card .input-container .bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #757575;
+  width: 100%;
+  height: 1px;
+}
+.card .input-container .bar:before, .card .input-container .bar:after {
+  content: '';
+  position: absolute;
+  background: #ed2553;
+  width: 0;
+  height: 2px;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+.card .input-container .bar:before {
+  left: 50%;
+}
+.card .input-container .bar:after {
+  right: 50%;
+}
+
+</style>
+</html>
