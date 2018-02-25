@@ -262,7 +262,7 @@ def getRecentFormInOpposition(playerno,format1,country,opp):
         return sum/innings
 
 @app.route('/',methods=["POST","GET"])
-def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
+def player_analysis(descriptors=None,name=None,avglast5=None,avglast5withteam=None,opp=None,place=None,homeavg=None,awayavg=None,avgwithteam=None,format1=None):
     if request.method=="POST":
         name=request.form["name"]
         name=name.split(" ")
@@ -302,7 +302,24 @@ def player_analysis(name=None,avglast5=None,avglast5withteam=None,opp=None,place
         else:
             rc=rankCoeff(rankings_test[country],rankings_test[opp])
         rating=neuralNet(pc,rfc,cc,rc,bpcoeff)
-        return render_template("playerrate.html",rating=rating,format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
+        descriptors=[]
+        if bpcoeff>=0.85 and bpcoeff<1.15:
+            descriptors.append("Great current form. Possibility of performing")
+        if bpcoeff>=1.15:
+            descriptors.append("Exceedingly good performance.")
+        if bpcoeff<0.85 and bpcoeff>0.65:
+            descriptors.append("Average display of late.")
+        if bpcoeff<=0.65:
+            descriptors.append("Not in good form.")
+        if avgwithteam>=40 and avgwithteam<50:
+            descriptors.append("Has a good run with this team.")
+        if avgwithteam<40 and avgwithteam>=35:
+            descriptors.append("Has a decent run with this team.")
+        if avgwithteam<35:
+            descriptors.append("Has had a bad run with this team in recent times.")
+        if avgwithteam>=50:
+            descriptors.append("Doing very well against this team. Good chance of performing well.")
+        return render_template("playerrate.html",descriptors=descriptors,rating=rating,format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
 
     else:
         return render_template("playerrate.html")
