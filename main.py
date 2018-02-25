@@ -268,6 +268,8 @@ def player_analysis(descriptors=None,name=None,avglast5=None,avglast5withteam=No
         name=name.split(" ")
         if len(name)==2:
             name = name[0].upper() +" "+ name[1].title()
+        else:
+            name=name[0]+name[1]+name[2]
 
         country=request.form["country"]
         opp=request.form["opposition"]
