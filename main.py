@@ -313,9 +313,9 @@ def player_analysis(descriptors=None,name=None,avglast5=None,avglast5withteam=No
             descriptors.append("Average display of late.")
         if bpcoeff<=0.65:
             descriptors.append("Not in good form.")
-        if avglast5withteam>=40 and avgwithteam<50:
+        if avglast5withteam>=40 and avglast5withteam<50:
             descriptors.append("Has a good run with this team.")
-        if avglast5withteam<40 and avgwithteam>=35:
+        if avglast5withteam<40 and avglast5withteam>=35:
             descriptors.append("Has a decent run with this team.")
         if avglast5withteam<35:
             descriptors.append("Has had a bad run with this team in recent times.")
