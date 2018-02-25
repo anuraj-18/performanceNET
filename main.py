@@ -279,6 +279,8 @@ def player_analysis(descriptors=None,name=None,avglast5=None,avglast5withteam=No
         avg=HomeAwayAverage(playerno,name,country,format1)
         homeavg=avg[0]
         awayavg=avg[1]
+        avglast5=float(format(avglast5,'.2f'))
+        avglast5withteam=float(format(avglast5withteam,'.2f'))
         career_avg=getCareerAvg(playerno,name,country,format1)
         if avgwithteam==-1:
             if place=="Away":
