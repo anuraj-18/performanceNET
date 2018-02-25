@@ -311,13 +311,13 @@ def player_analysis(descriptors=None,name=None,avglast5=None,avglast5withteam=No
             descriptors.append("Average display of late.")
         if bpcoeff<=0.65:
             descriptors.append("Not in good form.")
-        if avgwithteam>=40 and avgwithteam<50:
+        if avglast5withteam>=40 and avgwithteam<50:
             descriptors.append("Has a good run with this team.")
-        if avgwithteam<40 and avgwithteam>=35:
+        if avglast5withteam<40 and avgwithteam>=35:
             descriptors.append("Has a decent run with this team.")
-        if avgwithteam<35:
+        if avglast5withteam<35:
             descriptors.append("Has had a bad run with this team in recent times.")
-        if avgwithteam>=50:
+        if avglast5withteam>=50:
             descriptors.append("Doing very well against this team. Good chance of performing well.")
         return render_template("playerrate.html",descriptors=descriptors,rating=rating,format1=format1,name=name,avglast5=avglast5,avglast5withteam=avglast5withteam,opp=opp,place=place,career_avg=career_avg,homeavg=homeavg,awayavg=awayavg,avgwithteam=avgwithteam)
 
